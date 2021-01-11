@@ -14,15 +14,12 @@ class HistoricalReader(Stock):
     Reference: https://iextrading.com/developer/docs/#chart
     """
 
-    def __init__(self, symbols, start=None, end=None, close_only=False, **kwargs):
+    def __init__(self, symbols, start=None, end=None, close_only=False, single_day=False, **kwargs):
         start = start or datetime.datetime.today() - datetime.timedelta(days=365)
         self.start, self.end = _sanitize_dates(start, end)
         self.close_only = close_only
+        self.single_day = single_day
         super(HistoricalReader, self).__init__(symbols, **kwargs)
-
-    @property
-    def single_day(self):
-        return True if self.end is None else False
 
     @property
     def chart_range(self):
